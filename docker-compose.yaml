@@ -63,3 +63,38 @@ services:
     ports:
       - 9117:9117
     restart: unless-stopped
+  jellyseerr:
+      image: fallenbagel/jellyseerr:latest
+      container_name: jellyseerr
+      environment:
+          - LOG_LEVEL=debug
+          - TZ=Europe/Amsterdamn
+      ports:
+          - 5055:5055
+      volumes:
+          - ./config/jellyseerr:/app/config
+      restart: unless-stopped
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./config/radarr:/config
+      - ./media/movies:/movies #optional
+      - ./downloads:/downloads #optional
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    restart: unless-stopped
+    volumes:
+      - ./config/homarr:/app/data/configs
+      - ./homarr-icons:/app/public/icons
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '7575:7575'
