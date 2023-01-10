@@ -31,7 +31,8 @@ services:
       - 6881:6881/udp
     restart: unless-stopped
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
+    # image: lscr.io/linuxserver/jellyfin:latest
+    image: lscr.io/linuxserver/jellyfin:nightly
     container_name: jellyfin
     environment:
       - PUID=1000
@@ -96,6 +97,6 @@ services:
     volumes:
       - ./config/homarr:/app/data/configs
       - ./homarr-icons:/app/public/icons
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - '7575:7575'
